@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nick Baron | About</title>
+
+  <style>
+    :root {
+      --text: #f5fbff;
+      --muted: #b5c5d6;
+      --accent: #79f0ff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: "Courier New", monospace;
+      color: var(--text);
+      background: black;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    .video-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: -1;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .logo {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 1.2rem;
+      letter-spacing: 0.15em;
+      text-transform: lowercase;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.95rem;
+      text-transform: lowercase;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: var(--accent);
+    }
+
+    .sound-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--muted);
+      padding: 0.45rem 0.8rem;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+      text-transform: lowercase;
+    }
+
+    .sound-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .about-section {
+      min-height: 100vh;
+      padding: 8rem 2rem 3rem;
+      display: block;
+    }
+
+    .about-content {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.35fr 0.85fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .about-main {
+      background: rgba(0, 0, 0, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 2rem;
+      backdrop-filter: blur(3px);
+    }
+
+    .about-side {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .side-box {
+      background: rgba(0, 0, 0, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 1.4rem;
+      backdrop-filter: blur(3px);
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 7vw, 5.4rem);
+      line-height: 0.95;
+      margin-bottom: 1.2rem;
+      text-transform: lowercase;
+      min-height: 1.1em;
+    }
+
+    .about-text {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .about-text.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .about-text p {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--text);
+      margin-bottom: 1rem;
+      max-width: 62ch;
+      text-transform: lowercase;
+    }
+
+    .box-title {
+      color: var(--accent);
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      margin-bottom: 0.9rem;
+      text-transform: uppercase;
+    }
+
+    .side-box ul {
+      list-style: none;
+    }
+
+    .side-box li {
+      color: var(--text);
+      margin-bottom: 0.7rem;
+      font-size: 0.95rem;
+      text-transform: lowercase;
+      line-height: 1.6;
+    }
+
+    .edu-list {
+      list-style: none;
+    }
+
+    .edu-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .edu-logo {
+      width: 250px;
+      height: 100px;
+      object-fit: contain;
+      filter: brightness(0.9) contrast(1.1);
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .edu-school {
+      display: block;
+      font-size: 0.98rem;
+      color: var(--text);
+      text-transform: lowercase;
+      margin-bottom: 0.2rem;
+    }
+
+    .edu-degree {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--muted);
+      text-transform: lowercase;
+      line-height: 1.5;
+    }
+
+    .typing::after {
+      content: "|";
+      animation: blink 0.9s steps(1) infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    @media (max-width: 900px) {
+      .about-content {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="header-container"></div>
+
+  <section class="about-section">
+    <div class="about-content">
+      <div class="about-main">
+        <h1 id="line1"></h1>
+
+        <div class="about-text" id="about-text">
+          <p> i'm a software engineer focused on designing and 
+              building systems that turn complex data into useful 
+              outcomes. i'm especially passionate about raising 
+              shareholder value. 
+          </p> 
+          <p> i previously worked in the biotech industry and 
+              in scientific research. 
+          </p>
+        </div>
+      </div>
+
+      <div class="about-side">
+        <div class="side-box">
+          <p class="box-title">education</p>
+
+          <ul class="edu-list">
+            <li class="edu-item">
+              <img src="elements/upennlogo.png" class="edu-logo" alt="University of Pennsylvania logo">
+              <div>
+                <span class="edu-school">university of pennsylvania</span>
+                <span class="edu-degree">
+                  master of applied science in computer science
+                </span>
+              </div>
+            </li>
+
+            <li class="edu-item">
+              <img src="elements/tuftslogo.png" class="edu-logo" alt="Tufts University logo">
+              <div>
+                <span class="edu-school">tufts university</span>
+                <span class="edu-degree">master of science in bioinformatics</span>
+              </div>
+            </li>
+
+            <li class="edu-item">
+              <img src="elements/umainelogo.png" class="edu-logo" alt="University of Maine logo">
+              <div>
+                <span class="edu-school">university of maine</span>
+                <span class="edu-degree">bachelor of science in biology</span>
+              </div>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const line1 = document.getElementById("line1");
+    const aboutText = document.getElementById("about-text");
+
+    function setupSharedHeader() {
+      fetch("header.html")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to load header.html");
+          }
+          return response.text();
+        })
+        .then((html) => {
+          const container = document.getElementById("header-container");
+          container.innerHTML = html;
+
+          const audio = document.getElementById("bg-music");
+          const soundToggle = document.getElementById("sound-toggle");
+          const aboutLink = document.querySelector('a[data-nav="about"]');
+
+          if (aboutLink) {
+            aboutLink.classList.add("active");
+          }
+
+          if (!audio || !soundToggle) return;
+
+          audio.volume = 0.025;
+
+          function updateSoundButton() {
+            const isOn = !audio.paused;
+            soundToggle.textContent = isOn ? "sound: on" : "sound: off";
+          }
+
+          function playAudio() {
+            if (!audio.paused) {
+              updateSoundButton();
+              return;
+            }
+
+            audio.play()
+              .then(() => {
+                updateSoundButton();
+              })
+              .catch(() => {
+                updateSoundButton();
+              });
+          }
+
+          function pauseAudio() {
+            audio.pause();
+            updateSoundButton();
+          }
+
+          soundToggle.addEventListener("click", (event) => {
+            event.stopPropagation();
+
+            if (audio.paused) {
+              playAudio();
+            } else {
+              pauseAudio();
+            }
+          });
+
+          document.addEventListener("click", playAudio, { once: true });
+          document.addEventListener("keydown", playAudio, { once: true });
+          document.addEventListener("touchstart", playAudio, { once: true });
+
+          updateSoundButton();
+        })
+        .catch((error) => {
+          console.error("Shared header failed to load:", error);
+        });
+    }
+
+    function typeText(element, text, speed = 90) {
+      return new Promise((resolve) => {
+        let i = 0;
+        element.textContent = "";
+        element.classList.add("typing");
+
+        function type() {
+          if (i < text.length) {
+            element.textContent += text[i++];
+            setTimeout(type, speed);
+          } else {
+            element.classList.remove("typing");
+            resolve();
+          }
+        }
+
+        type();
+      });
+    }
+
+    async function runIntro() {
+      await typeText(line1, "about me", 110);
+      await new Promise((resolve) => setTimeout(resolve, 250));
+      aboutText.classList.add("show");
+    }
+
+    window.addEventListener("load", () => {
+      setupSharedHeader();
+      runIntro();
+    });
+  </script>
+
+</body>
+</html>
